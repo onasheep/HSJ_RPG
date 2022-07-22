@@ -1,0 +1,18 @@
+{"index":0,"name":"RedPotion","recoverHp":30,"price":0,"type":6,"imagename":"Red Potion"}
+{"index":1,"name":"BigRedPotion","recoverHp":80,"price":0,"type":6,"imagename":"Big Red Potion"}
+{"index":2,"name":"BluePotion","recoverMp":30,"price":0,"type":6,"imagename":"Blue Potion"}
+{"index":3,"name":"BigBluePotion","recoverMp":80,"price":0,"type":6,"imagename":"Big Blue Potion"}
+{"index":4,"name":"IronSword","atk":10,"price":0,"type":4,"imagename":"Iron Sword"}
+{"index":5,"name":"SilverSword","atk":20,"price":0,"type":4,"imagename":"Silver Sword"}
+{"index":6,"name":"GoldenSword","atk":50,"price":0,"type":4,"imagename":"Golden Sword"}
+{"index":7,"name":"WoodenArmor","def":10,"price":0,"type":3,"imagename":"Wooden Armor"}
+{"index":8,"name":"LeatherArmor","def":20,"price":0,"type":3,"imagename":"Leather Armor"}
+{"index":9,"name":"IronArmor","def":30,"price":0,"type":3,"imagename":"Iron Armor"}
+{"index":10,"name":"WoodenPlank","def":5,"price":0,"type":5,"imagename":"Wooden Plank"}
+{"index":11,"name":"WoodenShield","def":10,"price":0,"type":5,"imagename":"Wooden Shield"}
+{"index":12,"name":"IronShield","def":15,"price":0,"type":5,"imagename":"Iron Shield"}
+{"index":13,"name":"Helmet","def":5,"price":0,"type":1,"imagename":"Iron Helmet"}
+{"index":14,"name":"Helm","def":15,"price":0,"type":1,"imagename":"Helm"}
+{"index":15,"name":"WoodLog","def":5,"price":0,"type":2,"imagename":"Wood Log"}
+{"index":16,"name":"Bag","def":10,"price":0,"type":2,"imagename":"Bag"}
+{"index":17,"name":"Wings","atk":15,"def":15,"price":0,"type":2,"imagename":"Feather"}
