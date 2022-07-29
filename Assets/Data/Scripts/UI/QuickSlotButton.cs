@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class QuickSlotButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+
     public Button slot1;
     public Button slot2;
     public Button slot3;

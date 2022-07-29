@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{6B6B2F11-AF3C-DACD-16ED-D2EA38C4D254}</ProjectGuid>
+    <ProjectGuid>{686BB78A-84E7-8F4D-A108-04886AF751C9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Data\Scripts\Item\Item.cs" />
     <Compile Include="Assets\Data\Scripts\StateMachine\IsAttacking.cs" />
+    <Compile Include="Assets\Data\Scripts\Monster\MonsterMovement.cs" />
     <Compile Include="Assets\Data\Assets\UI pack\Scripts\FillValueNumber.cs" />
     <Compile Include="Assets\Data\Scripts\Item\EquipmentMeshData.cs" />
     <Compile Include="Assets\Data\Scripts\Player\EventCam.cs" />
@@ -65,17 +66,20 @@
     <Compile Include="Assets\Data\Scripts\StateMachine\IsDodging.cs" />
     <Compile Include="Assets\Data\Scripts\UI\Inventory.cs" />
     <Compile Include="Assets\Data\Scripts\Player\SpringArm.cs" />
+    <Compile Include="Assets\Data\Scripts\Common\GameUtil.cs" />
     <Compile Include="Assets\Data\Scripts\UI\ItemSlot.cs" />
     <Compile Include="Assets\Data\Assets\Beautiful Progress Bar Free - CYKO\Scripts\SliderScripts.cs" />
     <Compile Include="Assets\Data\Scripts\UI\MovableHead.cs" />
     <Compile Include="Assets\Data\Scripts\Map\GateOpen.cs" />
     <Compile Include="Assets\Data\Scripts\UI\SliderController.cs" />
+    <Compile Include="Assets\Data\Scripts\UI\QuickSlotButton.cs" />
+    <Compile Include="Assets\Data\Scripts\Monster\AIPerception.cs" />
+    <Compile Include="Assets\Data\Scripts\Monster\Monster.cs" />
     <Compile Include="Assets\Data\Scripts\Player\Player.cs" />
     <Compile Include="Assets\Data\Assets\Hovl Studio\Map track markers VFX\Demo scene\RaycastInstance.cs" />
     <Compile Include="Assets\Data\Scripts\Player\Character.cs" />
     <Compile Include="Assets\Data\Scripts\Player\PickUp.cs" />
     <Compile Include="Assets\Data\Scripts\UI\UIKeyInput.cs" />
-    <Compile Include="Assets\Data\Scripts\UI\QuickSlotButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Data\Assets\Cainos\Pixel Art Icon Pack - RPG\Shader\SH UI Icon Outline Color.shader" />

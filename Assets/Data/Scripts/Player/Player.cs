@@ -5,23 +5,39 @@ using UnityEngine.UI;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
 
-public class Player : Character
+public class Player : Character, BattleSystem
 {
 
     public enum STATE
     {
         NONE, CREATE, PLAY, DEAD
     }
-    public STATE mystate = STATE.NONE;
+    public STATE myState = STATE.NONE;
     public LayerMask PickingMask;
     public LayerMask InteractiveMask;
 
     public GameObject MoveMarker;
     private GameObject obj;
 
+    //
+    public bool IsLive()
+    {
+        return myState == STATE.PLAY;
+    }
+    public void OnDamage(int Damage)
+    {
+        if (myState != STATE.PLAY) return;
+        mystat.HP -= Damage;
+        if (mystat.HP <= 0.0f)
+        {
+            ChangeState(STATE.DEAD);
 
+        }
+        else
+            myAnim.SetTrigger("Damage");
+    }
 
-
+    //
     void Start()
     {
         // 기본 공격 콤보 인식용 컴퍼넌트 
@@ -109,9 +125,9 @@ public class Player : Character
 
     void ChangeState(STATE s)
     {
-        if (mystate == s) return;
-        mystate = s;
-        switch (mystate)
+        if (myState == s) return;
+        myState = s;
+        switch (myState)
         {
             case STATE.CREATE:
                 SetInitializeStat();
@@ -127,7 +143,7 @@ public class Player : Character
 
     void StateProcese()
     {
-        switch (mystate)
+        switch (myState)
         {
             case STATE.CREATE:
                 break;

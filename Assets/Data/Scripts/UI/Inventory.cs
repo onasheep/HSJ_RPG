@@ -27,14 +27,17 @@ public class Inventory : MonoBehaviour
     bool unEquip = false;
 
     public int potionCount;
-    public GameObject AmountText;
     public TMPro.TMP_Text potionNumtxt;
 
     public GameObject QuickSlot;
 
     public Button deletItem;
 
+    TMPro.TextMeshProUGUI amountText;
 
+    public Button sortButton;
+
+    ItemData temp = null;
 
     /// <summary>
     /// 아이템, 장비창을 배열에 넣고 TYPE을 각각 나눠준다 
@@ -56,6 +59,7 @@ public class Inventory : MonoBehaviour
         }
         quickslots = QuickSlot.GetComponentsInChildren<ItemSlot>();
 
+
     }
     private void Start()
     {
@@ -64,8 +68,11 @@ public class Inventory : MonoBehaviour
 
 
 
-        for (int i = 0; i < 22; i++)
+        for (int i = 0; i < 24; i++)
         {
+
+            amountText = itemslots[i].GetComponent<TMPro.TextMeshProUGUI>();
+
             int itemPercentage = Random.Range(0, 101);
             if (itemPercentage < 10)
             {
@@ -83,25 +90,21 @@ public class Inventory : MonoBehaviour
             {
                 ItemData Armor = item.Armorlist[Random.Range(0, 3)];
                 itemslots[i].slotItemData = Armor;
-
             }
             else if (itemPercentage >= 50 & itemPercentage < 70)
             {
                 ItemData Shield = item.Shieldlist[Random.Range(0, 3)];
                 itemslots[i].slotItemData = Shield;
-
             }
             else if (itemPercentage >= 70 & itemPercentage < 90)
             {
                 ItemData Potion = item.Potionlist[Random.Range(0, 4)];
-                itemslots[i].slotItemData = Potion;
+                    itemslots[i].slotItemData = Potion;
             }
             else
             {
                 ItemData Head = item.Headlist[Random.Range(0, 2)];
                 itemslots[i].slotItemData = Head;
-
-
             }
         }
     }
@@ -151,6 +154,42 @@ public class Inventory : MonoBehaviour
 
     }
     
+    public void SumPotion()
+    {
+        int count = 1;
+        for (int i = 0; i < itemslots.Length; i++)
+        {
+            if (itemslots[i].slotItemData.type == 6)
+            {
+                if(itemslots[i].slotItemData.index == itemslots[i].slotItemData.index)
+                {
+                    count++;
+                    amountText.enabled = true;
+                    amountText.text = count.ToString();
+                }
+            }
+        }
+    }
+
+    public void SortInventory()
+    {
+        for(int i = 0; i < itemslots.Length; i++)
+        {
+            if (itemslots[i].slotItemData != null)
+            {
+                return;
+            }
+            else if (itemslots[i].slotItemData == null)
+            {
+               
+                temp = itemslots[i].slotItemData;
+                itemslots[i].slotItemData = itemslots[i + 1].slotItemData;
+                itemslots[i + 1].slotItemData = temp;
+            }
+        }
+    }
+
+
 
     void EquipBegginerSet()
     {
@@ -172,7 +211,7 @@ public class Inventory : MonoBehaviour
         //if (itemslots[i].slotItemData == Potion)
         //{
         //    potionCount++;
-        //    AmountText.SetActive(true);
+        //    AmountText.enabled = true;
         //    potionNumtxt.text = potionCount.ToString();
         //}
     }

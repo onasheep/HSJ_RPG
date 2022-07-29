@@ -17,7 +17,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     [SerializeField]
     public Type sloType;
     int emptySlotIndex;
-
+    TMPro.TextMeshProUGUI AmountText;
 
     #region 슬롯 드래그 파라메터
     Vector2 DragOffset = Vector2.zero;
@@ -31,10 +31,21 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         
         myInven = this.GetComponentInParent<Inventory>();
 
+        AmountText = this.GetComponentInChildren<TMPro.TextMeshProUGUI>();
     }
     void Update()
     {
         SetSlotImage();
+        //if (slotItemData.type == 6)
+        //{
+        //    AmountText.enabled = true;
+        //    AmountText.text = 1.ToString();
+        //}
+        //else
+        //{
+        //    AmountText.enabled = false;
+        //    return;
+        //}
     }
 
 
@@ -194,7 +205,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         }
     }
 
-    void SwapData(ItemData data1, ItemData data2, int invenSlotNum , int equipSlotNum )
+    public void SwapData(ItemData data1, ItemData data2, int invenSlotNum , int equipSlotNum )
     {
         // 인벤토리와 장비창을 교환하는 경우
 
