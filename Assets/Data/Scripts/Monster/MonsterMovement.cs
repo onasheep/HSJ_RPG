@@ -15,18 +15,27 @@ public class MonsterMovement : MonoBehaviour
             return _anim;
         }
     }
-    //AnimEvent _animEvent = null;
-    //protected AnimEvent myAnimEvent
-    //{
-    //    get
-    //    {
-    //        if (_animEvent == null)
-    //        {
-    //            _animEvent = this.GetComponentInChildren<AnimEvent>();
-    //        }
-    //        return _animEvent;
-    //    }
-    //}
+    Rigidbody _rigid = null;
+    protected Rigidbody myRigid
+    {
+        get
+        {
+            if (_rigid == null) _rigid = this.GetComponent<Rigidbody>();
+            return _rigid;
+        }
+    }
+    AnimEvent _animEvent = null;
+    protected AnimEvent myAnimEvent
+    {
+        get
+        {
+            if (_animEvent == null)
+            {
+                _animEvent = this.GetComponentInChildren<AnimEvent>();
+            }
+            return _animEvent;
+        }
+    }
     public float MoveSpeed = 3.0f;
     public float SmoothMoveSpeed = 5.0f;
 
@@ -69,6 +78,8 @@ public class MonsterMovement : MonoBehaviour
                 this.transform.Translate(dir * delta, Space.World);
             }
             dist -= delta;
+            myAnim.SetBool("IsWalking", false);
+
             yield return null;
         }
 
@@ -82,10 +93,11 @@ public class MonsterMovement : MonoBehaviour
             this.transform.position = TargetPos;
         }
 
-        myAnim.SetBool("IsWalking", false);
         moveRoutine = null;
         //목표지점에 도착
         //if (done != null) done();
+        myAnim.SetBool("IsWalking", false);
+
         done?.Invoke();
     }
 

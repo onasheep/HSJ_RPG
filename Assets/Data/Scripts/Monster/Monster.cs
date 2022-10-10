@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
+
 public class Monster : MonsterMovement, BattleSystem
 {
 
@@ -11,25 +13,14 @@ public class Monster : MonsterMovement, BattleSystem
     }
     public STATE myState = STATE.NONE;
 
-    float _curHP = 0.0f;
     public CharacterStat myStat;
+    public ItemDropper myDropper;
+    public Transform DamageTextPos;
+  
 
-    public float HP
-    {
-        get
-        {
-            return _curHP;
-        }
-        set
-        {
-            _curHP += value;
-            if (_curHP < 0.0f) _curHP = 0.0f;
-            //myStatBar.myHP.value = _curHP / myStat.HP;
-        }
-    }
+    Vector3 StartPos;
 
     AIPerception _aiperception = null;
-    Vector3 StartPos;
     AIPerception myPerceptoion
     {
         get
@@ -44,6 +35,7 @@ public class Monster : MonsterMovement, BattleSystem
     }
     //
 
+
     void FindTarget()
     {
         ChangeState(STATE.BATTLE);
@@ -55,18 +47,26 @@ public class Monster : MonsterMovement, BattleSystem
     {
         return myState == STATE.WAITING || myState == STATE.BATTLE;
     }
-
-    public void OnDamage(int Damage)
+   
+    public void OnDamage(float Damage)
     {
+        //obj = Instantiate(MonsterHPBar, this.transform.position + new Vector3(0.0f, 10.0f, 0.0f), Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
         if (myState == STATE.DEATH) return;
-        HP = -Damage;
-        if (HP <= 0.0f)
+
+        if (myStat.HP > 0.0f)
+        {
+
+            myAnim.SetTrigger("Damage");
+            myStat.HP -= Damage;
+
+
+        }       
+        if (myStat.HP <= 0)
         {
             ChangeState(STATE.DEATH);
 
         }
-        else
-        myAnim.SetTrigger("Damage");
+
     }
 
     //
@@ -89,19 +89,24 @@ public class Monster : MonsterMovement, BattleSystem
         done?.Invoke();
     }
 
+    void OnAttack()
+    {
 
+        myPerceptoion.myTarget.OnDamage(myStat.ATK);
+        
+        
+    }
 
     void ChangeState(STATE s)
     {
-        if (myState == s) return;   // 상태가 바뀔때 원래 상태와 같은 경우는 다
+        if (myState == s) return;   
         myState = s;
         switch (myState)
         {
             case STATE.CREAT:
-                //_curHP = myStat.HP;
                 myPerceptoion.FindTarget = FindTarget;
                 StartPos = this.transform.position;
-                //myAnimEvent.Attack += OnAttack;
+                myAnimEvent.Attack += OnAttack;
 
                 ChangeState(STATE.WAITING);
                 break;
@@ -113,15 +118,15 @@ public class Monster : MonsterMovement, BattleSystem
                 base.AttackTarget(myPerceptoion.myTarget, myStat.AttackRange, myStat.AttackDelay, () => ChangeState(STATE.WAITING));
                 break;
             case STATE.DEATH:
-                base.StopAllCoroutines();
-                myStat.HP = 0.0f;
-                myAnim.SetTrigger("Death");
-                StartCoroutine(Disapearing());
 
+                base.StopAllCoroutines();
+                myStat.HP = 0;               
+                myAnim.SetTrigger("Dead");
+                StartCoroutine(Disapearing());              
                 break;
         }
     }
-    void StateProcess()        // 업데이트문에서 호출될꺼고 각각 업데이트 상
+    void StateProcess()       
     {
         switch (myState)
         {
@@ -139,16 +144,16 @@ public class Monster : MonsterMovement, BattleSystem
     IEnumerator Disapearing()
     {
         yield return new WaitForSeconds(3.0f);
-        //Destroy(myStatBar.gameObject);
         float dist = 1.0f;
+        myDropper.ItemDrop(this.transform); // 아이템 드롭 
         while (dist > 0.0f)
         {
             float delta = Time.deltaTime * 0.5f;
             this.transform.Translate(-Vector3.up * Time.deltaTime);
             dist -= delta;
+
             yield return null;
         }
-
         Destroy(this.gameObject);
     }
 }

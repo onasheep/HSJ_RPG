@@ -6,12 +6,6 @@ using UnityEngine.UI;
 
 public class QuickSlotButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-
-    public Button slot1;
-    public Button slot2;
-    public Button slot3;
-    public Button slot4;
-
     // Start is called before the first frame update
     void Start()
     {

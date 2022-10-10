@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UIKeyInput : MonoBehaviour
 {
-    
+    public GameObject Filter;
     public GameObject Equip;
     public GameObject Inven;
     private bool OnEquip = false;
@@ -60,7 +60,5 @@ public class UIKeyInput : MonoBehaviour
             OnInven = true;
         }
     }
-
-
 
 }

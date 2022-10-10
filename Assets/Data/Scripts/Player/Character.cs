@@ -37,22 +37,35 @@ public class Character : MonoBehaviour
         }
     }
     #endregion
-    
-    [Serializable]
-    public struct CharacterStat
+    #region 애님이벤트
+    AnimEvent _animEvent = null;
+    protected AnimEvent myAnimEvent
     {
-        public int LV;
-        public int HP;
-        public int MP;
-        public int EXP;
-        public int ATK;
-        public int DEF;
-        public int MaxHP;
-        public int MaxMP;
-        public int MaxEXP;
+        get
+        {
+            if (_animEvent == null)
+            {
+                _animEvent = this.GetComponentInChildren<AnimEvent>();
+            }
+            return _animEvent;
+        }
     }
-    [Header("캐릭터스탯")]
-    public CharacterStat mystat;
+    #endregion
+    //[Serializable]
+    //public struct CharacterStat
+    //{
+    //    public int LV;
+    //    public int HP;
+    //    public int MP;
+    //    public int EXP;
+    //    public int ATK;
+    //    public int DEF;
+    //    public int MaxHP;
+    //    public int MaxMP;
+    //    public int MaxEXP;
+    //}
+    //[Header("캐릭터스탯")]
+    //public CharacterStat mystat;
 
     #region 텍스트
     // 개별 텍스트 오브젝트
@@ -214,18 +227,7 @@ public class Character : MonoBehaviour
         }
     }
 
+ 
 
-    public void SetInitializeStat()
-    {
-        // 스탯 기본값
-        mystat.LV = 1;
-        mystat.EXP = 0;
-        mystat.HP = 100;
-        mystat.MP = 50;
-        mystat.ATK = 10;
-        mystat.DEF = 10;
-        mystat.MaxHP = mystat.HP;
-        mystat.MaxMP = mystat.MP;
-    }
 }
 

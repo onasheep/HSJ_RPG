@@ -36,20 +36,11 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     void Update()
     {
         SetSlotImage();
-        //if (slotItemData.type == 6)
-        //{
-        //    AmountText.enabled = true;
-        //    AmountText.text = 1.ToString();
-        //}
-        //else
-        //{
-        //    AmountText.enabled = false;
-        //    return;
-        //}
+
     }
 
 
-    //  포션 먹는 경우 아직 구현 X 스탯 완성 후 구현 예정
+    //  포션 먹는 경우 아직 구현 X 스탯 완성 후 구현 예정 (구현 완료)
 
     // 장비창이 가득 찬 상태에서 헬맷 이외의 아이템을 해제하고 다시 장비하면 머리 창에 장착됨
     /// <summary>
@@ -88,35 +79,30 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
                 }
                 else if (this.slotItemData.type == 6)
                 {
-
                     if (this.slotItemData.recoverHp != 0)
                     {
-                        if(myInven.myPlayer.mystat.HP >= myInven.myPlayer.mystat.MaxHP && !myInven.MessageLog.enabled)
+                        if(myInven.myPlayer.myStat.HP >= myInven.myPlayer.myStat.MaxHP && !myInven.MessageLog.enabled)
                         {
                             StartCoroutine(FadeMessage("HP가 가득 찼습니다."));
                         }
-                        else if(myInven.myPlayer.mystat.HP < myInven.myPlayer.mystat.MaxHP)
+                        else if(myInven.myPlayer.myStat.HP < myInven.myPlayer.myStat.MaxHP)
                         {
                             myInven.PotionToStat(this.slotItemData);
                             this.slotItemData = null;
                         }
-
                     }
                     else if (this.slotItemData.recoverMp != 0)
                     {
-                        if (myInven.myPlayer.mystat.MP >= myInven.myPlayer.mystat.MaxMP && !myInven.MessageLog.enabled)
+                        if (myInven.myPlayer.myStat.MP >= myInven.myPlayer.myStat.MaxMP && !myInven.MessageLog.enabled)
                         {
                             StartCoroutine(FadeMessage("MP가 가득 찼습니다."));
                         }
-                        else if (myInven.myPlayer.mystat.MP < myInven.myPlayer.mystat.MaxMP)
+                        else if (myInven.myPlayer.myStat.MP < myInven.myPlayer.myStat.MaxMP)
                         {
                             myInven.PotionToStat(this.slotItemData);
                             this.slotItemData = null;
                         }
-
-                    }
-
-                    
+                    }               
                 }
             }
             // 장비창을 클릭한 경우
@@ -134,13 +120,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             {
                 myInven.QuickSlot.SetActive(true);
                 myInven.QuickSlot.transform.position = this.transform.position;
-                
-                
-                
-
-
-            }
-           
+            }          
         }
         #endregion 
     }
@@ -237,13 +217,12 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     /// </summary>
     void SetSlotImage()
     {
-        if (this.slotItemData != null)
+        if (this.slotItemData != null && this.slotItemData.type != 0 && this.slotItemData != default(ItemData))
         {
             image[2].color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-            // 5일 고민한 문제 ㅋㅋ.. as sprite 가 아니고 <Sprite> 형을 로드해야한다...
             this.image[2].sprite = Resources.Load<Sprite>(slotItemData.imagename.ToString());
         }
-        if (this.slotItemData == null || this.slotItemData.type == 0 || this.slotItemData == default(ItemData))
+        else if (this.slotItemData == null || this.slotItemData.type == 0 || this.slotItemData == default(ItemData))
         {
             image[2].color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
             // 아이템 데이터가 비어져있으면 이미지 삭제

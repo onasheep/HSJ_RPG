@@ -19,7 +19,6 @@ public class AIPerception : MonoBehaviour
 
                 myTarget = other.gameObject.GetComponentInParent<BattleSystem>();
                 FindTarget?.Invoke();
-                Debug.Log("1");
             }
         }
 

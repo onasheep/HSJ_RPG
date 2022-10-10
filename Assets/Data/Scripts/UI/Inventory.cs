@@ -17,6 +17,10 @@ public class Inventory : MonoBehaviour
     public ItemSlot[] itemslots;
     public ItemSlot[] equipslots;
     public ItemSlot[] quickslots;
+
+    
+
+    ItemSlot[] sortslots;
     // Item 안에 있는 리스트를 가져오기 위해
     [SerializeField]
     Item item;
@@ -37,7 +41,6 @@ public class Inventory : MonoBehaviour
 
     public Button sortButton;
 
-    ItemData temp = null;
 
     /// <summary>
     /// 아이템, 장비창을 배열에 넣고 TYPE을 각각 나눠준다 
@@ -58,8 +61,6 @@ public class Inventory : MonoBehaviour
 
         }
         quickslots = QuickSlot.GetComponentsInChildren<ItemSlot>();
-
-
     }
     private void Start()
     {
@@ -68,45 +69,7 @@ public class Inventory : MonoBehaviour
 
 
 
-        for (int i = 0; i < 24; i++)
-        {
-
-            amountText = itemslots[i].GetComponent<TMPro.TextMeshProUGUI>();
-
-            int itemPercentage = Random.Range(0, 101);
-            if (itemPercentage < 10)
-            {
-                ItemData Back = item.Backlist[Random.Range(0, 3)];
-                itemslots[i].slotItemData = Back;
-
-            }
-            else if (itemPercentage >= 10 & itemPercentage < 30)
-            {
-                ItemData Weapon = item.Weaponlist[Random.Range(0, 3)];
-                itemslots[i].slotItemData = Weapon;
-
-            }
-            else if (itemPercentage >= 30 & itemPercentage < 50)
-            {
-                ItemData Armor = item.Armorlist[Random.Range(0, 3)];
-                itemslots[i].slotItemData = Armor;
-            }
-            else if (itemPercentage >= 50 & itemPercentage < 70)
-            {
-                ItemData Shield = item.Shieldlist[Random.Range(0, 3)];
-                itemslots[i].slotItemData = Shield;
-            }
-            else if (itemPercentage >= 70 & itemPercentage < 90)
-            {
-                ItemData Potion = item.Potionlist[Random.Range(0, 4)];
-                    itemslots[i].slotItemData = Potion;
-            }
-            else
-            {
-                ItemData Head = item.Headlist[Random.Range(0, 2)];
-                itemslots[i].slotItemData = Head;
-            }
-        }
+   
     }
     void Update()
     {
@@ -180,11 +143,9 @@ public class Inventory : MonoBehaviour
                 return;
             }
             else if (itemslots[i].slotItemData == null)
-            {
-               
-                temp = itemslots[i].slotItemData;
+            {                           
                 itemslots[i].slotItemData = itemslots[i + 1].slotItemData;
-                itemslots[i + 1].slotItemData = temp;
+                itemslots[i + 1].slotItemData = null;
             }
         }
     }
@@ -362,11 +323,11 @@ public class Inventory : MonoBehaviour
     public void AddToStat(ItemData data1 = null, ItemData data2 = null)
     {
         if (data1 == null || data2 == null) return;
-        myPlayer.mystat.ATK += data1.atk;
-        myPlayer.mystat.DEF += data1.def;
+        myPlayer.myStat.ATK += data1.atk;
+        myPlayer.myStat.DEF += data1.def;
 
-        myPlayer.mystat.ATK -= data2.atk;
-        myPlayer.mystat.DEF -= data2.def;
+        myPlayer.myStat.ATK -= data2.atk;
+        myPlayer.myStat.DEF -= data2.def;
     }
 
     // 초기 장비 스탯 세팅
@@ -374,15 +335,15 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < equipslots.Length; i++)
         {
-            myPlayer.mystat.ATK += equipslots[i].slotItemData.atk;
-            myPlayer.mystat.DEF += equipslots[i].slotItemData.def;
+            myPlayer.myStat.ATK += equipslots[i].slotItemData.atk;
+            myPlayer.myStat.DEF += equipslots[i].slotItemData.def;
         }
     }
 
     public void PotionToStat(ItemData data1)
     {        // 포션 먹을경우
-        myPlayer.mystat.HP += data1.recoverHp;
-        myPlayer.mystat.MP += data1.recoverMp;
+        myPlayer.myStat.HP += data1.recoverHp;
+        myPlayer.myStat.MP += data1.recoverMp;
     }
 
 

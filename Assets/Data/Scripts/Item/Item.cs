@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Text;
-using Newtonsoft.Json;
 using System.IO;
 
 
@@ -19,6 +18,7 @@ public class ItemData
     public int price;
     public int type;
     public string imagename;
+    public string itemValue;
 }
 [SerializeField]
 public class Item : MonoBehaviour
@@ -29,6 +29,12 @@ public class Item : MonoBehaviour
     public List<ItemData> Shieldlist;
     public List<ItemData> Headlist;
     public List<ItemData> Backlist;
+    public List<ItemData> Normallist;
+    public List<ItemData> Rarelist;
+    public List<ItemData> Epiclist;
+
+
+
 
     ItemData data;
 
@@ -45,6 +51,7 @@ public class Item : MonoBehaviour
 
             data = JsonUtility.FromJson<ItemData>(s);
             int type = data.type;
+            string itemValue = data.itemValue;
             switch (type)
             {
                 case 1:
@@ -67,7 +74,30 @@ public class Item : MonoBehaviour
                     break;
 
             }
+            if ( itemValue == "Normal")
+            {
+                Normallist.Add(data);
+            }
+            else if ( itemValue == "Rare")
+            {
+                Rarelist.Add(data);
+            }
+            else
+            {
+                Epiclist.Add(data);
+            }
         }
     }
 
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            Debug.Log("Trigger");
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Destroy(this.gameObject);
+            }
+        }
+    }
 }

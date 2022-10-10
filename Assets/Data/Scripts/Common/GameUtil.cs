@@ -8,9 +8,17 @@ public struct CharacterStat
 {
     public float AttackRange;
     public float AttackDelay;
-    public float AP;
+    public int LV;
     public float HP;
+    public float MP;
+    public float EXP;
+    public float ATK;
+    public float DEF;
+    public float MaxHP;
+    public float MaxMP;
+    public float MaxEXP;
 }
+
 
 public struct ROTATEDATA
 {
@@ -37,7 +45,7 @@ public class GameUtil
 
 public interface BattleSystem
 {
-    void OnDamage(int Damage);
+    void OnDamage(float Damage);
     Transform transform { get; }
     bool IsLive();
 

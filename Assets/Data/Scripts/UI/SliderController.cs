@@ -14,8 +14,8 @@ public class SliderController : MonoBehaviour
     public Player myPlayer;
     void Start()
     {
-        Hpbar.value = (float)myPlayer.mystat.HP / (float)myPlayer.mystat.MaxHP;
-        Mpbar.value = (float)myPlayer.mystat.HP / (float)myPlayer.mystat.MaxHP;
+        Hpbar.value = (float)myPlayer.myStat.HP / (float)myPlayer.myStat.MaxHP;
+        Mpbar.value = (float)myPlayer.myStat.HP / (float)myPlayer.myStat.MaxHP;
 
     }
 
@@ -28,14 +28,14 @@ public class SliderController : MonoBehaviour
 
     void UpdateTextSlider()
     {
-        hpbartxt.text = myPlayer.mystat.HP + " / " + myPlayer.mystat.MaxHP;
-        mpbartxt.text = myPlayer.mystat.MP + " / " + myPlayer.mystat.MaxMP;
+        hpbartxt.text = myPlayer.myStat.HP + " / " + myPlayer.myStat.MaxHP;
+        mpbartxt.text = myPlayer.myStat.MP + " / " + myPlayer.myStat.MaxMP;
     }
 
     void barController()
     {
-        Hpbar.value = Mathf.Lerp(Hpbar.value, (float)myPlayer.mystat.HP / (float)myPlayer.mystat.MaxHP, Time.deltaTime * 10.0f);
-        Mpbar.value = Mathf.Lerp(Mpbar.value, (float)myPlayer.mystat.MP / (float)myPlayer.mystat.MaxMP, Time.deltaTime * 10.0f);
+        Hpbar.value = Mathf.Lerp(Hpbar.value, (float)myPlayer.myStat.HP / (float)myPlayer.myStat.MaxHP, Time.deltaTime * 10.0f);
+        Mpbar.value = Mathf.Lerp(Mpbar.value, (float)myPlayer.myStat.MP / (float)myPlayer.myStat.MaxMP, Time.deltaTime * 10.0f);
 
     }
 }

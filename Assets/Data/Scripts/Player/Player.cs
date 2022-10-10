@@ -13,35 +13,73 @@ public class Player : Character, BattleSystem
         NONE, CREATE, PLAY, DEAD
     }
     public STATE myState = STATE.NONE;
+
     public LayerMask PickingMask;
     public LayerMask InteractiveMask;
+    public LayerMask AttackMask;
 
+    public GameObject HpParticle;
+    public GameObject GameOver;
     public GameObject MoveMarker;
     private GameObject obj;
 
-    //
+    public GameObject DamageTextPrefabs;
+
+    
+    public SoundManager mySound;
+
+    public Transform myWeapon;
+    
+   
+
+    public CharacterStat myStat;
+    float count = 0;
+  
+
     public bool IsLive()
     {
         return myState == STATE.PLAY;
     }
-    public void OnDamage(int Damage)
+    public void OnDamage(float Damage)
     {
         if (myState != STATE.PLAY) return;
-        mystat.HP -= Damage;
-        if (mystat.HP <= 0.0f)
+        if (myStat.HP > 0.0f)
         {
-            ChangeState(STATE.DEAD);
+            
+            myAnim.SetTrigger("Damage");
+            myStat.HP -= Damage;
+
 
         }
-        else
-            myAnim.SetTrigger("Damage");
+        if ( myStat.HP <= 0.0f)
+        {
+            ChangeState(STATE.DEAD);
+        }
     }
 
+    public void OnAttack()
+    {
+        Collider[] list = Physics.OverlapSphere(myWeapon.position, 2.0f, AttackMask); // 한번 휘두를떄 여러명이 맞을수있으므로 배열형태로 리턴됨
+        foreach (Collider col in list)
+        {
+            BattleSystem bs = col.gameObject.GetComponent<BattleSystem>();
+            if (bs != null)
+            {
+                GameObject DamageText = GameObject.Instantiate(DamageTextPrefabs);
+                DamageText.transform.SetParent(col.gameObject.GetComponent<Monster>().DamageTextPos);
+                DamageText.transform.position = col.gameObject.GetComponent<Monster>().DamageTextPos.position;
+                DamageText.transform.localRotation = Quaternion.Euler(45.0f, 0.0f, 0.0f);
+                DamageText.GetComponent<DamageText>().damage = myStat.ATK;
+                bs.OnDamage(myStat.ATK);
+
+            }
+        }
+
+    }
     //
     void Start()
     {
-        // 기본 공격 콤보 인식용 컴퍼넌트 
-    ChangeState(STATE.CREATE);
+        ChangeState(STATE.CREATE);
     }
     // 변경사항 
 
@@ -83,12 +121,42 @@ public class Player : Character, BattleSystem
                 myAnim.SetBool("Run", false);
                 myAnim.SetTrigger("Attack1");
             }
+            
+        }
 
-        }     
-        
     }
     #endregion 
 
+    void Skill()
+    {
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            StopAllCoroutines();
+            myNav.ResetPath();
+            myAnim.SetTrigger("QSkill");
+        }
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            StopAllCoroutines();
+            myNav.ResetPath();
+            myAnim.SetTrigger("WSkill");
+
+        }
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            StopAllCoroutines();
+            myNav.ResetPath();
+            myAnim.SetTrigger("ESkill");
+
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            StopAllCoroutines();
+            myNav.ResetPath();
+            myAnim.SetTrigger("RSkill");
+
+        }
+    }
     // 네브매쉬 때문에 작동하는지 확실치않으니 일단 보류
     /// <summary>
     /// 발이 땅에서 떨이지지 않음
@@ -101,6 +169,7 @@ public class Player : Character, BattleSystem
         }
 
     }
+
     void Dodging()
     {
         myNav.ResetPath();
@@ -117,9 +186,10 @@ public class Player : Character, BattleSystem
         Destroy(obj);
     }
     #endregion
-    void Interactive()
+ 
+    void GetItem()
     {
-        
+      
     }
 
 
@@ -130,6 +200,9 @@ public class Player : Character, BattleSystem
         switch (myState)
         {
             case STATE.CREATE:
+                mySound.GetComponent<AudioSource>().clip = mySound.BGM;
+                mySound.GetComponent<AudioSource>().Play();
+                myAnimEvent.Attack += OnAttack;
                 SetInitializeStat();
                 ChangeState(STATE.PLAY);
                 break;
@@ -137,6 +210,11 @@ public class Player : Character, BattleSystem
                 myAnim.SetBool("Moveable", true);
                 break;
             case STATE.DEAD:
+                mySound.GetComponent<AudioSource>().clip = mySound.GameOver;
+                mySound.GetComponent<AudioSource>().Play();
+                base.StopAllCoroutines();
+                myStat.HP = 0.0f;
+                myAnim.SetTrigger("Dead");               
                 break;
         }
     }
@@ -148,6 +226,7 @@ public class Player : Character, BattleSystem
             case STATE.CREATE:
                 break;
             case STATE.PLAY:
+                CalculateStat();
                 #region NavMeshPath 디버그 선 
                 //for (int i = 0; i < path.corners.Length - 1; i++)
                 //{
@@ -156,10 +235,9 @@ public class Player : Character, BattleSystem
                 #endregion
                 if (Input.GetKeyDown(KeyCode.A))
                 {
-                    mystat.HP -= 10;
-                    mystat.MP -= 10;
+                    myStat.HP -= 10;
+                    myStat.MP -= 10;
                 }
-
                 if (myAnim.GetBool("Moveable") & !myAnim.GetBool("IsAttacking"))
                 {
                     Picking();
@@ -169,10 +247,20 @@ public class Player : Character, BattleSystem
                     DestroyMarker();
                     Dodging();
                 }
+                if (myAnim.GetBool("Moveable") & !myAnim.GetBool("IsAttacking"))
+                {
+                    Skill();
+                }
 
-                CalculateStat();
+                   
                 break;
             case STATE.DEAD:
+                count += Time.deltaTime;
+                if (count > 5.0f)
+                {
+                    GameOver.SetActive(true);
+                    count = 0;
+                }
                 break;
         }
 
@@ -184,38 +272,54 @@ public class Player : Character, BattleSystem
     {
 
         // 스탯 텍스트에 저장
-        LVt.text = "LV : " + mystat.LV.ToString();
-        EXPt.text = "EXP : " + mystat.EXP.ToString();
-        HPt.text = "HP : " + mystat.HP.ToString();
-        MPt.text = "MP : " + mystat.MP.ToString();
-        ATKt.text = "ATK : " + mystat.ATK.ToString();
-        DEFt.text = "DEF : " + mystat.DEF.ToString();
+        LVt.text = "LV : " + myStat.LV.ToString();
+        EXPt.text = "EXP : " + myStat.EXP.ToString();
+        HPt.text = "HP : " + myStat.HP.ToString();
+        MPt.text = "MP : " + myStat.MP.ToString();
+        ATKt.text = "ATK : " + myStat.ATK.ToString();
+        DEFt.text = "DEF : " + myStat.DEF.ToString();
 
 
 
 
 
-        if (mystat.HP > mystat.MaxHP)
+        if (myStat.HP > myStat.MaxHP)
         {
-            mystat.HP = mystat.MaxHP;
+            myStat.HP = myStat.MaxHP;
 
         }
-        else if (mystat.HP <= 0)
+        else if (myStat.HP <= 0)
         {
-            mystat.HP = 0;
+            myStat.HP = 0;
+            ChangeState(STATE.DEAD);
+        }
+        if (myStat.MP > myStat.MaxMP)
+        {
+            myStat.MP = myStat.MaxMP;
+        }
+        else if (myStat.MP <= 0)
+        {
+            myStat.MP = 0;
         }
 
-
-        if (mystat.MP > mystat.MaxMP)
+        if(myStat.HP == 0)
         {
-            mystat.MP = mystat.MaxMP;
-        }
-        else if (mystat.MP <= 0)
-        {
-            mystat.MP = 0;
+            ChangeState(STATE.DEAD);
         }
     }
 
 
+    public void SetInitializeStat()
+    {
+        // 스탯 기본값
+        myStat.LV = 1;
+        myStat.EXP = 0;
+        myStat.HP = 100;
+        myStat.MP = 50;
+        myStat.ATK = 10;
+        myStat.DEF = 10;
+        myStat.MaxHP = myStat.HP;
+        myStat.MaxMP = myStat.MP;
+    }
 
 }
