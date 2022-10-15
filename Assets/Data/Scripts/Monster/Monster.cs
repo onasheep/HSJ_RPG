@@ -15,8 +15,12 @@ public class Monster : MonsterMovement, BattleSystem
 
     public CharacterStat myStat;
     public ItemDropper myDropper;
+
     public Transform DamageTextPos;
-  
+    public GameObject DamageTextPrefabs;
+
+    public Player myPlayer;
+
 
     Vector3 StartPos;
 
@@ -50,23 +54,35 @@ public class Monster : MonsterMovement, BattleSystem
    
     public void OnDamage(float Damage)
     {
-        //obj = Instantiate(MonsterHPBar, this.transform.position + new Vector3(0.0f, 10.0f, 0.0f), Quaternion.Euler(new Vector3(90.0f, 0.0f, 0.0f)));
         if (myState == STATE.DEATH) return;
 
         if (myStat.HP > 0.0f)
         {
-
+            Damage -= myStat.DEF;
+            if (Damage <= 0)
+            {
+                Damage = 1.0f;
+            }
             myAnim.SetTrigger("Damage");
             myStat.HP -= Damage;
 
+            // 데미지 텍스트 출력
+            GameObject DamageText = GameObject.Instantiate(DamageTextPrefabs);
+            DamageText.transform.SetParent(DamageTextPos);
+            DamageText.transform.position = DamageTextPos.position;
+            DamageText.transform.localRotation = Quaternion.Euler(45.0f, 0.0f, 0.0f);
+            DamageText.GetComponent<DamageText>().damage = Damage;
 
-        }       
+        }
         if (myStat.HP <= 0)
         {
             ChangeState(STATE.DEATH);
-
         }
 
+    }
+    void OnAttack()
+    {
+        myPerceptoion.myTarget.OnDamage(myStat.ATK);
     }
 
     //
@@ -89,13 +105,7 @@ public class Monster : MonsterMovement, BattleSystem
         done?.Invoke();
     }
 
-    void OnAttack()
-    {
-
-        myPerceptoion.myTarget.OnDamage(myStat.ATK);
-        
-        
-    }
+  
 
     void ChangeState(STATE s)
     {
@@ -118,8 +128,9 @@ public class Monster : MonsterMovement, BattleSystem
                 base.AttackTarget(myPerceptoion.myTarget, myStat.AttackRange, myStat.AttackDelay, () => ChangeState(STATE.WAITING));
                 break;
             case STATE.DEATH:
-
+                myPlayer.myStat.EXP += myStat.EXP;
                 base.StopAllCoroutines();
+                this.GetComponent<Rigidbody>().isKinematic = true;
                 myStat.HP = 0;               
                 myAnim.SetTrigger("Dead");
                 StartCoroutine(Disapearing());              

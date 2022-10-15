@@ -51,21 +51,6 @@ public class Character : MonoBehaviour
         }
     }
     #endregion
-    //[Serializable]
-    //public struct CharacterStat
-    //{
-    //    public int LV;
-    //    public int HP;
-    //    public int MP;
-    //    public int EXP;
-    //    public int ATK;
-    //    public int DEF;
-    //    public int MaxHP;
-    //    public int MaxMP;
-    //    public int MaxEXP;
-    //}
-    //[Header("캐릭터스탯")]
-    //public CharacterStat mystat;
 
     #region 텍스트
     // 개별 텍스트 오브젝트
@@ -100,6 +85,7 @@ public class Character : MonoBehaviour
     {
         StopAllCoroutines();
         StartCoroutine(MovingByNav(poslist, done));
+
     }
 
     IEnumerator MovingByNav(Vector3[] poslist,UnityAction done)
@@ -112,6 +98,7 @@ public class Character : MonoBehaviour
             moveRoutine = StartCoroutine(Moving((poslist[i]), done));
             yield return moveRoutine;
         }
+        done?.Invoke();
 
     }
 
@@ -136,9 +123,10 @@ public class Character : MonoBehaviour
             yield return null;
         }
         // 클릭 지점으로 이동완료후 마커 삭제
-        myAnim.SetBool("Run", false);
-        done?.Invoke();
+        
+        myAnim.SetBool("Run", false);        
         moveRoutine = null;
+        
 
 
     }

@@ -10,6 +10,8 @@ public class TeleportGate : MonoBehaviour
     public Transform DestGate;
     public Inventory inven;
     public GameObject myPlayer;
+    public EventCam eventCam;
+    
     void Start()
     {
         
@@ -30,6 +32,7 @@ public class TeleportGate : MonoBehaviour
                 inven.MessageLog.enabled = false;
                 myPlayer.GetComponent<NavMeshAgent>().enabled = false;
                 myPlayer.transform.position = DestGate.position;
+                eventCam.BossCamMove();
             }
         }
     }

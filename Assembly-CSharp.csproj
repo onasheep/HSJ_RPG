@@ -56,15 +56,13 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Data\Assets\HPParticle\Scripts\HPScript.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX\Demo\Assets\CFX_Demo_RotateCamera.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_LightIntensityFade.cs" />
     <Compile Include="Assets\Data\Scripts\Item\Item.cs" />
     <Compile Include="Assets\Data\Scripts\StateMachine\IsAttacking.cs" />
-    <Compile Include="Assets\Data\Assets\HPParticle\Scripts\PlayerCollisionScript.cs" />
     <Compile Include="Assets\Data\Scripts\UI\DamageText.cs" />
-    <Compile Include="Assets\Data\Assets\HPParticle\Scripts\DestroyAfter.cs" />
-    <Compile Include="Assets\Data\Assets\HPParticle\Scripts\CameraScript.cs" />
     <Compile Include="Assets\Data\Scripts\Item\DropItemData.cs" />
-    <Compile Include="Assets\Data\Assets\HPParticle\Scripts\ProjectileShooterScript.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_AutoRotate.cs" />
     <Compile Include="Assets\Data\Scripts\Monster\MonsterMovement.cs" />
     <Compile Include="Assets\Data\Assets\UI pack\Scripts\FillValueNumber.cs" />
     <Compile Include="Assets\Data\Scripts\Item\EquipmentMeshData.cs" />
@@ -72,43 +70,47 @@
     <Compile Include="Assets\Data\Scripts\Sound\SoundManager.cs" />
     <Compile Include="Assets\Data\Scripts\UI\UIWindow.cs" />
     <Compile Include="Assets\Data\Scripts\Common\AnimEvent.cs" />
-    <Compile Include="Assets\Data\Assets\HPParticle\Scripts\AlwaysFace.cs" />
-    <Compile Include="Assets\Data\Assets\HPParticle\Scripts\GUIHPParticleScript.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX\Demo\Assets\CFX_AutoStopLoopedEffect.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX\Demo\Assets\CFX_Demo_RandomDirectionTranslate.cs" />
     <Compile Include="Assets\Data\Scripts\StateMachine\IsDodging.cs" />
-    <Compile Include="Assets\Data\Assets\HPParticle\Scripts\GUIProjectileSettingsScript.cs" />
     <Compile Include="Assets\Data\Scripts\UI\Inventory.cs" />
     <Compile Include="Assets\Data\Scripts\Player\SpringArm.cs" />
-    <Compile Include="Assets\Data\Assets\HPParticle\Scripts\ProjectileScript.cs" />
     <Compile Include="Assets\Data\Scripts\UI\Filter.cs" />
     <Compile Include="Assets\Data\Scripts\Common\GameUtil.cs" />
     <Compile Include="Assets\Data\Scripts\UI\ItemSlot.cs" />
     <Compile Include="Assets\Data\Assets\Beautiful Progress Bar Free - CYKO\Scripts\SliderScripts.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX\Demo\Assets\CFX_Demo_RandomDir.cs" />
     <Compile Include="Assets\Data\Scripts\UI\MovableHead.cs" />
     <Compile Include="Assets\Data\Scripts\Map\GateOpen.cs" />
     <Compile Include="Assets\Data\Scripts\UI\SliderController.cs" />
     <Compile Include="Assets\Data\Scripts\UI\QuickSlotButton.cs" />
-    <Compile Include="Assets\Data\Assets\HPParticle\Scripts\GUICameraScript.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX\Demo\Assets\CFX_Demo_Translate.cs" />
     <Compile Include="Assets\Data\Scripts\Item\ItemDropper.cs" />
     <Compile Include="Assets\Data\Scripts\Monster\AIPerception.cs" />
-    <Compile Include="Assets\Data\Assets\HPParticle\Scripts\HPParticleScript.cs" />
+    <Compile Include="Assets\Data\Scripts\Map\TeleportGate.cs" />
     <Compile Include="Assets\Data\Scripts\Monster\Monster.cs" />
     <Compile Include="Assets\Data\Scripts\Player\Player.cs" />
     <Compile Include="Assets\Data\Assets\Hovl Studio\Map track markers VFX\Demo scene\RaycastInstance.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX\Demo\Assets\CFX_Demo_New.cs" />
     <Compile Include="Assets\Data\Scripts\Player\Character.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_LightFlicker.cs" />
+    <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_AutoDestructShuriken.cs" />
     <Compile Include="Assets\Data\Scripts\Player\PickUp.cs" />
     <Compile Include="Assets\Data\Scripts\UI\UIKeyInput.cs" />
     <Compile Include="Assets\Data\Scripts\UI\Sort.cs" />
-    <Compile Include="Assets\Data\Scripts\Map\TeleportGate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Data\Assets\Cainos\Pixel Art Icon Pack - RPG\Shader\SH UI Icon Outline Color.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\Data\Shader\AlphaFadeShader.shader" />
+    <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFX3 Multiply Color.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\JMO Assets\Cartoon FX\CartoonFX Free.txt" />
     <None Include="Assets\Data\Assets\Cainos\Pixel Art Icon Pack - RPG\Shader\SH Sprite Icon Outline Color.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\JMO Assets\Cartoon FX Easy Editor\CartoonFX Easy Editor Readme.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\Data\Assets\Hovl Studio\Map track markers VFX\Shaders\Blend_CenterGlow.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
@@ -122,6 +124,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Data\Assets\UI pack\Documentation.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\JMO Assets\Cartoon FX\Shaders\CFXM_MobileParticleAdd_Alpha8.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\Hovl Studio\Procedural fire\Shaders\FireSphere.shader" />
     <None Include="Assets\Data\Assets\Hovl Studio\Map track markers VFX\Shaders\Add_CenterGlow.shader" />
@@ -130,7 +133,6 @@
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\Hovl Studio\Procedural fire\Demo scene\Readme.txt" />
-    <None Include="Assets\Data\Assets\HPParticle\Third Person Character\Third Person Character Guidelines.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
   </ItemGroup>
   <ItemGroup>

@@ -1543,7 +1543,7 @@ AnimatorStateMachine:
     m_Position: {x: 1392, y: -48, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102214278444587338}
-    m_Position: {x: 1176, y: -48, z: 0}
+    m_Position: {x: 1180, y: -50, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102766697451408136}
     m_Position: {x: 1176, y: 12, z: 0}

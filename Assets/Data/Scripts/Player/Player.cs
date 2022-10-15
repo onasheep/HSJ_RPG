@@ -18,18 +18,16 @@ public class Player : Character, BattleSystem
     public LayerMask InteractiveMask;
     public LayerMask AttackMask;
 
-    public GameObject HpParticle;
     public GameObject GameOver;
     public GameObject MoveMarker;
     private GameObject obj;
 
-    public GameObject DamageTextPrefabs;
 
-    
     public SoundManager mySound;
 
     public Transform myWeapon;
-    
+
+    public GameObject levelUpEffect;
    
 
     public CharacterStat myStat;
@@ -45,7 +43,12 @@ public class Player : Character, BattleSystem
         if (myState != STATE.PLAY) return;
         if (myStat.HP > 0.0f)
         {
-            
+            // 0 이하로 떨어지게 되면 1의 데미지로 고정
+            Damage -= myStat.DEF;
+            if(Damage <= 0)
+            {
+                Damage = 1.0f;
+            }
             myAnim.SetTrigger("Damage");
             myStat.HP -= Damage;
 
@@ -59,20 +62,15 @@ public class Player : Character, BattleSystem
 
     public void OnAttack()
     {
-        Collider[] list = Physics.OverlapSphere(myWeapon.position, 2.0f, AttackMask); // 한번 휘두를떄 여러명이 맞을수있으므로 배열형태로 리턴됨
+        Collider[] list = Physics.OverlapSphere(myWeapon.position, 1.0f, AttackMask); // 한번 휘두를떄 여러명이 맞을수있으므로 배열형태로 리턴됨
         foreach (Collider col in list)
         {
             BattleSystem bs = col.gameObject.GetComponent<BattleSystem>();
             if (bs != null)
             {
-                GameObject DamageText = GameObject.Instantiate(DamageTextPrefabs);
-                DamageText.transform.SetParent(col.gameObject.GetComponent<Monster>().DamageTextPos);
-                DamageText.transform.position = col.gameObject.GetComponent<Monster>().DamageTextPos.position;
-                DamageText.transform.localRotation = Quaternion.Euler(45.0f, 0.0f, 0.0f);
-                DamageText.GetComponent<DamageText>().damage = myStat.ATK;
                 bs.OnDamage(myStat.ATK);
-
             }
+            
         }
 
     }
@@ -272,6 +270,7 @@ public class Player : Character, BattleSystem
     {
 
         // 스탯 텍스트에 저장
+        LVCenter.text = "LV:"+ myStat.LV.ToString();
         LVt.text = "LV : " + myStat.LV.ToString();
         EXPt.text = "EXP : " + myStat.EXP.ToString();
         HPt.text = "HP : " + myStat.HP.ToString();
@@ -282,7 +281,7 @@ public class Player : Character, BattleSystem
 
 
 
-
+        // HP
         if (myStat.HP > myStat.MaxHP)
         {
             myStat.HP = myStat.MaxHP;
@@ -293,6 +292,12 @@ public class Player : Character, BattleSystem
             myStat.HP = 0;
             ChangeState(STATE.DEAD);
         }
+        if (myStat.HP == 0)
+        {
+            ChangeState(STATE.DEAD);
+        }
+
+        // MP
         if (myStat.MP > myStat.MaxMP)
         {
             myStat.MP = myStat.MaxMP;
@@ -302,9 +307,18 @@ public class Player : Character, BattleSystem
             myStat.MP = 0;
         }
 
-        if(myStat.HP == 0)
+        // EXP
+        if (myStat.EXP == myStat.MaxEXP)
         {
-            ChangeState(STATE.DEAD);
+            LevelUp();
+
+
+        }
+        else if(myStat.EXP > myStat.MaxEXP)
+        {
+            float overEXP = myStat.EXP - myStat.MaxEXP;
+            LevelUp();
+            myStat.EXP += overEXP;
         }
     }
 
@@ -316,10 +330,29 @@ public class Player : Character, BattleSystem
         myStat.EXP = 0;
         myStat.HP = 100;
         myStat.MP = 50;
-        myStat.ATK = 10;
+        myStat.ATK = 200;
         myStat.DEF = 10;
+        myStat.MaxEXP = 30;
         myStat.MaxHP = myStat.HP;
         myStat.MaxMP = myStat.MP;
+    }
+
+    public void LevelUp()
+    {
+        Instantiate(levelUpEffect, this.transform);
+            int level = myStat.LV;
+            myStat.EXP = 0;
+            myStat.LV++;
+            myStat.MaxEXP += 10 * level;
+            myStat.MaxHP += 20 * level;
+            myStat.MaxMP += 10 * level;
+            myStat.ATK += 5 * level;
+            myStat.DEF += 5 * level;
+
+
+            myStat.HP = myStat.MaxHP;
+            myStat.MP = myStat.MaxMP;
+
     }
 
 }
