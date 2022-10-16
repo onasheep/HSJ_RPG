@@ -61,6 +61,7 @@ public class Character : MonoBehaviour
     public TMPro.TMP_Text MPt;
     public TMPro.TMP_Text ATKt;
     public TMPro.TMP_Text DEFt;
+    public TMPro.TMP_Text Goldt;
     #endregion
 
     Coroutine moveRoutine = null;

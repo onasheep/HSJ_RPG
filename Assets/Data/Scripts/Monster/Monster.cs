@@ -128,7 +128,10 @@ public class Monster : MonsterMovement, BattleSystem
                 base.AttackTarget(myPerceptoion.myTarget, myStat.AttackRange, myStat.AttackDelay, () => ChangeState(STATE.WAITING));
                 break;
             case STATE.DEATH:
+                // 플레이어에게 경험치값 더해주기
                 myPlayer.myStat.EXP += myStat.EXP;
+                // 플레이어에게 골드값 더해주기
+                myPlayer.myStat.Gold += myStat.Gold;
                 base.StopAllCoroutines();
                 this.GetComponent<Rigidbody>().isKinematic = true;
                 myStat.HP = 0;               

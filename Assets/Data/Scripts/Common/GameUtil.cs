@@ -17,6 +17,7 @@ public struct CharacterStat
     public float MaxHP;
     public float MaxMP;
     public float MaxEXP;
+    public int Gold;
 }
 
 

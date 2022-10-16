@@ -277,6 +277,8 @@ public class Player : Character, BattleSystem
         MPt.text = "MP : " + myStat.MP.ToString();
         ATKt.text = "ATK : " + myStat.ATK.ToString();
         DEFt.text = "DEF : " + myStat.DEF.ToString();
+        Goldt.text = "°ñµå : " + myStat.Gold.ToString()+ "G";
+
 
 
 
@@ -335,6 +337,7 @@ public class Player : Character, BattleSystem
         myStat.MaxEXP = 30;
         myStat.MaxHP = myStat.HP;
         myStat.MaxMP = myStat.MP;
+        myStat.Gold = 0;
     }
 
     public void LevelUp()

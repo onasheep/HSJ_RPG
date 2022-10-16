@@ -72,10 +72,7 @@ public class ItemDropper : MonoBehaviour
         }
 
     }
-    void GoldDrop()
-    {
 
-    }
 
     void RandData(List<ItemData> datalist, GameObject obj)
     {
