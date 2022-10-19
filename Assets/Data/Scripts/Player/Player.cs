@@ -18,7 +18,6 @@ public class Player : Character, BattleSystem
     public LayerMask InteractiveMask;
     public LayerMask AttackMask;
 
-    public GameObject GameOver;
     public GameObject MoveMarker;
     private GameObject obj;
 
@@ -26,9 +25,20 @@ public class Player : Character, BattleSystem
     public SoundManager mySound;
 
     public Transform myWeapon;
-
+    // 이펙트
     public GameObject levelUpEffect;
-   
+    public GameObject hitEffect;
+
+    public GameObject GameOver;
+
+    // 스탯 관련
+    float needMP;
+    float QCoolCheck;
+    float WCoolCheck;
+    float ECoolCheck;
+    float RCoolCheck;
+    
+
 
     public CharacterStat myStat;
     float count = 0;
@@ -43,7 +53,7 @@ public class Player : Character, BattleSystem
         if (myState != STATE.PLAY) return;
         if (myStat.HP > 0.0f)
         {
-            // 0 이하로 떨어지게 되면 1의 데미지로 고정
+            // 0 이하로 떨어지게 되면 데미지로 고정
             Damage -= myStat.DEF;
             if(Damage <= 0)
             {
@@ -68,13 +78,24 @@ public class Player : Character, BattleSystem
             BattleSystem bs = col.gameObject.GetComponent<BattleSystem>();
             if (bs != null)
             {
+                Instantiate(hitEffect, col.gameObject.transform);
                 bs.OnDamage(myStat.ATK);
-            }
-            
+            }        
         }
-
     }
-    //
+
+    public void OnSkillAttack(Vector3 pos, float n, float damage)
+    {
+        Collider[] list = Physics.OverlapSphere(pos, n, AttackMask); // 한번 휘두를떄 여러명이 맞을수있으므로 배열형태로 리턴됨
+        foreach (Collider col in list)
+        {
+            BattleSystem bs = col.gameObject.GetComponent<BattleSystem>();
+            if (bs != null)
+            {
+                bs.OnDamage(damage);
+            }
+        }
+    }
     void Start()
     {
         ChangeState(STATE.CREATE);
@@ -85,6 +106,8 @@ public class Player : Character, BattleSystem
     void Update()
     {
         StateProcese();
+
+
     }
 
 
@@ -111,12 +134,8 @@ public class Player : Character, BattleSystem
             else if (Input.GetMouseButtonDown(0) & !EventSystem.current.IsPointerOverGameObject())
             {
                 // 모든 코루틴 정지 후 NavMeshPath 길찾기 초기화 
-                StopAllCoroutines();
-                myNav.ResetPath();
-
-                DestroyMarker();
+                AttackCommon();
                 base.RotateWhenAttacking(hit.point);
-                myAnim.SetBool("Run", false);
                 myAnim.SetTrigger("Attack1");
             }
             
@@ -125,36 +144,73 @@ public class Player : Character, BattleSystem
     }
     #endregion 
 
+    void AttackCommon()
+    {
+        StopAllCoroutines();
+        myNav.ResetPath();
+        DestroyMarker();
+        myAnim.SetBool("Run", false);
+    }
+
+    
     void Skill()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q) && QCoolCheck >= myStat.QcoolTime)
         {
-            StopAllCoroutines();
-            myNav.ResetPath();
-            myAnim.SetTrigger("QSkill");
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            StopAllCoroutines();
-            myNav.ResetPath();
-            myAnim.SetTrigger("WSkill");
+            needMP = 30;
+
+            
+            if (myStat.MP >= needMP)
+            {
+                QCoolCheck = 0.0f;
+                AttackCommon();
+                myStat.MP -= needMP;
+                myAnim.SetTrigger("QSkill");
+               
+
+                
+            }
 
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.W) && WCoolCheck >= myStat.WcoolTime)
         {
-            StopAllCoroutines();
-            myNav.ResetPath();
-            myAnim.SetTrigger("ESkill");
+            needMP = 20;
+            if (myStat.MP >= needMP)
+            {
+                WCoolCheck = 0.0f;
+                AttackCommon();
+                myStat.MP -= needMP;
+                myAnim.SetTrigger("WSkill");
+            }
 
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.E) && ECoolCheck >= myStat.EcoolTime)
         {
-            StopAllCoroutines();
-            myNav.ResetPath();
-            myAnim.SetTrigger("RSkill");
+            needMP = 20;
+            if (myStat.MP >= needMP)
+            {
+                ECoolCheck = 0.0f;
+                AttackCommon();
+                myStat.MP -= needMP;
+                myAnim.SetTrigger("ESkill");
 
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.R) && RCoolCheck >= myStat.RcoolTime)
+        {
+            needMP = 10.0f;
+            if (myStat.MP >= needMP)
+            {
+                RCoolCheck = 0.0f;
+                AttackCommon();
+                myStat.HP += 20.0f;
+                myStat.MP -= needMP;
+                myAnim.SetTrigger("RSkill");
+            }
         }
     }
+  
+
     // 네브매쉬 때문에 작동하는지 확실치않으니 일단 보류
     /// <summary>
     /// 발이 땅에서 떨이지지 않음
@@ -185,11 +241,7 @@ public class Player : Character, BattleSystem
     }
     #endregion
  
-    void GetItem()
-    {
-      
-    }
-
+  
 
     void ChangeState(STATE s)
     {
@@ -198,10 +250,13 @@ public class Player : Character, BattleSystem
         switch (myState)
         {
             case STATE.CREATE:
+                SetInitializeStat();
+
                 mySound.GetComponent<AudioSource>().clip = mySound.BGM;
                 mySound.GetComponent<AudioSource>().Play();
+
                 myAnimEvent.Attack += OnAttack;
-                SetInitializeStat();
+                        
                 ChangeState(STATE.PLAY);
                 break;
             case STATE.PLAY:
@@ -224,7 +279,19 @@ public class Player : Character, BattleSystem
             case STATE.CREATE:
                 break;
             case STATE.PLAY:
+                // 초반 쿨타임 
+                QCoolCheck += Time.deltaTime;
+                WCoolCheck += Time.deltaTime;
+                ECoolCheck += Time.deltaTime;
+                RCoolCheck += Time.deltaTime;
+
                 CalculateStat();
+                CoolTime(QImage, QCoolCheck, myStat.QcoolTime);
+                CoolTime(WImage, WCoolCheck, myStat.WcoolTime);
+                CoolTime(EImage, ECoolCheck, myStat.EcoolTime);
+                CoolTime(RImage, RCoolCheck, myStat.RcoolTime);
+
+
                 #region NavMeshPath 디버그 선 
                 //for (int i = 0; i < path.corners.Length - 1; i++)
                 //{
@@ -280,9 +347,6 @@ public class Player : Character, BattleSystem
         Goldt.text = "골드 : " + myStat.Gold.ToString()+ "G";
 
 
-
-
-
         // HP
         if (myStat.HP > myStat.MaxHP)
         {
@@ -322,6 +386,8 @@ public class Player : Character, BattleSystem
             LevelUp();
             myStat.EXP += overEXP;
         }
+
+
     }
 
 
@@ -330,14 +396,24 @@ public class Player : Character, BattleSystem
         // 스탯 기본값
         myStat.LV = 1;
         myStat.EXP = 0;
-        myStat.HP = 100;
-        myStat.MP = 50;
-        myStat.ATK = 200;
+        myStat.HP = 150;
+        myStat.MP = 500;
+        myStat.ATK = 30;
         myStat.DEF = 10;
         myStat.MaxEXP = 30;
         myStat.MaxHP = myStat.HP;
         myStat.MaxMP = myStat.MP;
         myStat.Gold = 0;
+        myStat.QcoolTime = 5;
+        myStat.WcoolTime = 3;
+        myStat.EcoolTime = 3;
+        myStat.RcoolTime = 5;
+
+        // 쿨타임
+        QCoolCheck = myStat.QcoolTime;
+        WCoolCheck = myStat.WcoolTime;
+        ECoolCheck = myStat.EcoolTime;
+        RCoolCheck = myStat.RcoolTime;
     }
 
     public void LevelUp()
@@ -358,4 +434,9 @@ public class Player : Character, BattleSystem
 
     }
 
+    // 쿨타임에 따른 UI 표시
+    private void CoolTime(Image image, float coolcheck,float cooltime)
+    {
+        image.fillAmount = coolcheck / cooltime;
+    }
 }

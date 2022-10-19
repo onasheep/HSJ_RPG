@@ -9,7 +9,6 @@ public class ItemDropper : MonoBehaviour
     public GameObject NormalItem;
     public GameObject RareItem;
     public GameObject EpicItem;
-    public Monster myMonster;
     public Vector3 DefaultForce = new Vector3(0.0f, 0.0f, 0.0f);
     public float DefaultForceScatter = 0.5f;
     void Start()

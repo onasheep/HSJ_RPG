@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using UnityEngine.AI;
 using System;
 
@@ -63,6 +64,17 @@ public class Character : MonoBehaviour
     public TMPro.TMP_Text DEFt;
     public TMPro.TMP_Text Goldt;
     #endregion
+
+    // 스킬 이미지    
+    public Image QImage;
+    public Image WImage;
+    public Image EImage;
+    public Image RImage;
+    public TMPro.TMP_Text QCoolTxt;
+    public TMPro.TMP_Text WCoolTxt;
+    public TMPro.TMP_Text ECoolTxt;
+    public TMPro.TMP_Text RCoolTxt;
+
 
     Coroutine moveRoutine = null;
 
@@ -216,7 +228,8 @@ public class Character : MonoBehaviour
         }
     }
 
- 
+
+
 
 }
 

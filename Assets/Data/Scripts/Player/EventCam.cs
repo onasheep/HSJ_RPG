@@ -14,6 +14,7 @@ public class EventCam : MonoBehaviour
     bool introScene = true;
     float delaytime;
     public Transform bossCamPos;
+    public GameObject Title;
 
     Camera eventCam;
     void Awake()
@@ -63,6 +64,7 @@ public class EventCam : MonoBehaviour
                 player.transform.position = new Vector3(35.0f, -5.5f, -20.0f);
             }
             player.GetComponent<NavMeshAgent>().enabled = true;
+            Title.SetActive(false);
             canvas.SetActive(true);
             introScene = false;
 

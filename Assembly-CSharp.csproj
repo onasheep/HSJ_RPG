@@ -85,6 +85,7 @@
     <Compile Include="Assets\Data\Scripts\UI\SliderController.cs" />
     <Compile Include="Assets\Data\Scripts\UI\QuickSlotButton.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX\Demo\Assets\CFX_Demo_Translate.cs" />
+    <Compile Include="Assets\Data\Scripts\Common\GameOver.cs" />
     <Compile Include="Assets\Data\Scripts\Item\ItemDropper.cs" />
     <Compile Include="Assets\Data\Scripts\Monster\AIPerception.cs" />
     <Compile Include="Assets\Data\Scripts\Map\TeleportGate.cs" />

@@ -18,6 +18,11 @@ public struct CharacterStat
     public float MaxMP;
     public float MaxEXP;
     public int Gold;
+    public float QcoolTime;
+    public float WcoolTime;
+    public float EcoolTime;
+    public float RcoolTime;
+
 }
 
 
