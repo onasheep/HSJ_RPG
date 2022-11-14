@@ -95,7 +95,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &-8004920498750593924
 Rigidbody:
@@ -125,3 +125,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8efe4cfee5638324da4c6111c12d9985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dropItemData:
+    index: 0
+    name: 
+    atk: 0
+    def: 0
+    recoverHp: 0
+    recoverMp: 0
+    price: 0
+    type: 0
+    imagename: 
+    itemValue: 
+  inven: {fileID: 0}

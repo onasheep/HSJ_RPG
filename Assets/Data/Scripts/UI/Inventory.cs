@@ -30,16 +30,9 @@ public class Inventory : MonoBehaviour
     bool isEquip = true;
     bool unEquip = false;
 
-    public int potionCount;
-    public TMPro.TMP_Text potionNumtxt;
 
-    public GameObject QuickSlot;
+   
 
-    public Button deletItem;
-
-    TMPro.TextMeshProUGUI amountText;
-
-    public Button sortButton;
 
 
     /// <summary>
@@ -60,7 +53,6 @@ public class Inventory : MonoBehaviour
             equipslots[i].sloType = ItemSlot.Type.EQUIPMENT;
 
         }
-        quickslots = QuickSlot.GetComponentsInChildren<ItemSlot>();
     }
     private void Start()
     {
@@ -73,7 +65,6 @@ public class Inventory : MonoBehaviour
     }
     void Update()
     {
-        AddItem();
         CheckEquipItem();
     }
 
@@ -117,6 +108,7 @@ public class Inventory : MonoBehaviour
 
     }
     
+    /*
     public void SumPotion()
     {
         int count = 1;
@@ -126,14 +118,13 @@ public class Inventory : MonoBehaviour
             {
                 if(itemslots[i].slotItemData.index == itemslots[i].slotItemData.index)
                 {
-                    count++;
-                    amountText.enabled = true;
-                    amountText.text = count.ToString();
+                    count++;           
+                  
                 }
             }
         }
     }
-
+    
     public void SortInventory()
     {
         for(int i = 0; i < itemslots.Length; i++)
@@ -149,7 +140,7 @@ public class Inventory : MonoBehaviour
             }
         }
     }
-
+    */
 
 
     void EquipBegginerSet()
@@ -159,23 +150,9 @@ public class Inventory : MonoBehaviour
         equipslots[3].slotItemData = item.Weaponlist[0];
         equipslots[4].slotItemData = item.Shieldlist[0];
     }
-    public void AddItem()
-
-    {
+   
 
 
-    }
-
-    // 포션 들어오면 칸을 차지하지 않고 포션 인덱스를 늘리기 
-    void CheckPotion()
-    {
-        //if (itemslots[i].slotItemData == Potion)
-        //{
-        //    potionCount++;
-        //    AmountText.enabled = true;
-        //    potionNumtxt.text = potionCount.ToString();
-        //}
-    }
 
 
     /// <summary>

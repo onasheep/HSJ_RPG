@@ -11,16 +11,7 @@ public class ItemDropper : MonoBehaviour
     public GameObject EpicItem;
     public Vector3 DefaultForce = new Vector3(0.0f, 0.0f, 0.0f);
     public float DefaultForceScatter = 0.5f;
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+ 
 
     // item 3°³ µå¶ø
     public void ItemDrop(Transform myMon)
@@ -37,6 +28,7 @@ public class ItemDropper : MonoBehaviour
             {
                 obj = Instantiate(NormalItem, myMon.position, Quaternion.identity);
                 RandData(item.Normallist, obj);
+                RandData(item.Potionlist, obj);
             }
             else if (itemPercentage >= 50 & itemPercentage < 80)
             {

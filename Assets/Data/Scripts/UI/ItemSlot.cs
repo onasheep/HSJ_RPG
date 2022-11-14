@@ -17,7 +17,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     [SerializeField]
     public Type sloType;
     int emptySlotIndex;
-    TMPro.TextMeshProUGUI AmountText;
 
     #region 슬롯 드래그 파라메터
     Vector2 DragOffset = Vector2.zero;
@@ -31,7 +30,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         
         myInven = this.GetComponentInParent<Inventory>();
 
-        AmountText = this.GetComponentInChildren<TMPro.TextMeshProUGUI>();
     }
     void Update()
     {
@@ -112,17 +110,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             }
         }
         #endregion
-
-        #region 좌클릭을 받았을때 
-        else if (eventData.button == PointerEventData.InputButton.Left)
-        {
-            if(slotItemData != null)
-            {
-                myInven.QuickSlot.SetActive(true);
-                myInven.QuickSlot.transform.position = this.transform.position;
-            }          
-        }
-        #endregion 
     }
 
     // 마우스 올리면 하이라이트 
@@ -135,11 +122,7 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
     public void OnPointerExit(PointerEventData eventData)
     {
         image[1].color = new Color(1.0f, 1.0f, 1.0f, 150.0f / 255.0f);
-        image[2].color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
-        if(myInven.QuickSlot.activeInHierarchy != true)
-        {
-            myInven.QuickSlot.SetActive(false);
-        }
+        image[2].color = new Color(1.0f, 1.0f, 1.0f, 0.0f);      
     }
 
 
@@ -157,7 +140,6 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             {
                 StartCoroutine(FadeMessage("인벤토리가 가득 찼습니다."));
 
-                //ShowMessageLog("인벤토리가 가득 찼습니다.");
                 return;
             }
             else

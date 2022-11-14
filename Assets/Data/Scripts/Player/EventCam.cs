@@ -13,7 +13,6 @@ public class EventCam : MonoBehaviour
     float timer;
     bool introScene = true;
     float delaytime;
-    public Transform bossCamPos;
     public GameObject Title;
 
     Camera eventCam;
@@ -71,18 +70,4 @@ public class EventCam : MonoBehaviour
         }
     }
 
-    public void BossCamMove()
-    {
-        // 이벤트 캠 depth 조절, 캔버스 비활성화, 네브매쉬에이전트 비활성화
-        eventCam.depth = 1;
-        canvas.SetActive(false);
-        player.GetComponent<NavMeshAgent>().enabled = false;
-
-        this.transform.position = bossCamPos.position;
-        this.transform.rotation = Quaternion.Euler(0.0f, -90.0f, 0.0f);
-        // DelayTime 에서 depth 조절 및 기능 활성화 
-        DelayTime(() => eventCam.depth = -1);
-
-
-    }
 }

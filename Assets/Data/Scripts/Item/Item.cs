@@ -89,15 +89,4 @@ public class Item : MonoBehaviour
         }
     }
 
-    public void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
-        {
-            Debug.Log("Trigger");
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                Destroy(this.gameObject);
-            }
-        }
-    }
 }

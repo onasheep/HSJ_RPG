@@ -211,19 +211,6 @@ public class Player : Character, BattleSystem
     }
   
 
-    // 네브매쉬 때문에 작동하는지 확실치않으니 일단 보류
-    /// <summary>
-    /// 발이 땅에서 떨이지지 않음
-    /// </summary>
-    void StickOnGround()
-    {
-        if (Physics.Raycast(this.transform.position, Vector3.down, out RaycastHit hit, 1.0f, PickingMask, QueryTriggerInteraction.Collide))
-        {
-            Mathf.Lerp(this.transform.position.y, hit.point.y, 1.0f);           
-        }
-
-    }
-
     void Dodging()
     {
         myNav.ResetPath();
@@ -396,8 +383,8 @@ public class Player : Character, BattleSystem
         // 스탯 기본값
         myStat.LV = 1;
         myStat.EXP = 0;
-        myStat.HP = 150;
-        myStat.MP = 500;
+        myStat.HP = 200;
+        myStat.MP = 150;
         myStat.ATK = 30;
         myStat.DEF = 10;
         myStat.MaxEXP = 30;

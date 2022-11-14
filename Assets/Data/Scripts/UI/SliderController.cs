@@ -42,20 +42,5 @@ public class SliderController : MonoBehaviour
         
     }
 
-    void LevelUp()
-    {
-        int level = myPlayer.myStat.LV;
-        myPlayer.myStat.EXP = 0;
-        myPlayer.myStat.LV++;
-        myPlayer.myStat.MaxEXP += 10 * level;
-        myPlayer.myStat.MaxHP += 20 * level;
-        myPlayer.myStat.MaxMP += 10 * level;
-        myPlayer.myStat.ATK += 5 * level;
-        myPlayer.myStat.DEF += 5 * level;
-
-
-        myPlayer.myStat.HP = myPlayer.myStat.MaxHP;
-        myPlayer.myStat.MP = myPlayer.myStat.MaxMP;
-
-    }
+   
 }

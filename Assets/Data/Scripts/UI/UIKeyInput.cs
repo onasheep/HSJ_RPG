@@ -11,14 +11,8 @@ public class UIKeyInput : MonoBehaviour
     private bool OnEquip = false;
     private bool OnInven = false;
 
-    public Slider HpBar;
-    public Slider MpBar;
-    public Slider ExpBar;
+    
 
-    void Start()
-    {
-        
-    }
 
     void Update()
     {

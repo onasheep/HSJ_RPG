@@ -21,7 +21,11 @@ public class DropItemData : MonoBehaviour
                 {
                     inven.itemslots[inven.FindEmptySlot(inven.itemslots)].slotItemData = dropItemData;
                 }
-                inven.MessageLog.enabled = false;
+                if(inven.MessageLog.enabled)
+                {
+                    inven.MessageLog.enabled = false;
+
+                }
                 Destroy(this.gameObject);
             }
         }

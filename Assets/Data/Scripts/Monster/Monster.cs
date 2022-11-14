@@ -15,12 +15,11 @@ public class Monster : MonsterMovement, BattleSystem
 
     public CharacterStat myStat;
     public ItemDropper myDropper;
-
+    
     public Transform DamageTextPos;
     public GameObject DamageTextPrefabs;
 
     public Player myPlayer;
-
 
     Vector3 StartPos;
 

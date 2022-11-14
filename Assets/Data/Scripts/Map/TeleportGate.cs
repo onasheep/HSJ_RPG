@@ -32,7 +32,6 @@ public class TeleportGate : MonoBehaviour
                 inven.MessageLog.enabled = false;
                 myPlayer.GetComponent<NavMeshAgent>().enabled = false;
                 myPlayer.transform.position = DestGate.position;
-                eventCam.BossCamMove();
             }
         }
     }

@@ -17,21 +17,20 @@ public class AnimEvent : MonoBehaviour
         Attack?.Invoke();
     }
 
-    public bool QSkill()
+    public void QSkill()
     {
-        myPlayer.OnSkillAttack(this.transform.position, 3.0f, myPlayer.myStat.ATK * 2.0f);
+        myPlayer.OnSkillAttack(this.transform.position, 3f, myPlayer.myStat.ATK * 3f);
         Instantiate(QEffect, this.transform);
-        return true;
     }
     public void WSkill()
     {
-        myPlayer.OnSkillAttack(myPlayer.myWeapon.position, 2.0f, myPlayer.myStat.ATK * 1.5f);
+        myPlayer.OnSkillAttack(myPlayer.myWeapon.position, 2f, myPlayer.myStat.ATK * 2f);
 
         Instantiate(WEffect, this.transform);
     }
     public void ESkill()
     {
-        myPlayer.OnSkillAttack(this.transform.position, 2.0f, myPlayer.myStat.ATK * 1.5f);
+        myPlayer.OnSkillAttack(this.transform.position, 2f, myPlayer.myStat.ATK * 2f);
 
         Instantiate(EEffect, this.transform);
     }
