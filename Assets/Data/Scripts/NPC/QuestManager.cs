@@ -15,6 +15,7 @@ public class QuestManager : MonoBehaviour
     // 퀘스트 목표치 확인용 변수
     int endQuestCnt = 0;
     public TMPro.TMP_Text questTxt;
+    public TMPro.TMP_Text questClearTxt;
 
     public GameObject metalFence;
     public GameObject fenceEffect;
@@ -22,17 +23,18 @@ public class QuestManager : MonoBehaviour
     void Start()
     {
         
-        endQuestCnt = questCnt1 + questCnt2 + questCnt3;
     }
 
     void Update()
     {
         SetQuest();
-        //if (endQuestCnt >= 3)
-        //{
+        endQuestCnt = questCnt1 + questCnt2 + questCnt3;
+
+        if (endQuestCnt >= 3)
+        {
             OpenFence();
-            
-        //}
+            questClearTxt.text = "퀘스트 완료";
+        }
     }
 
     public void OnQuestLog()
@@ -54,14 +56,8 @@ public class QuestManager : MonoBehaviour
             questCnt2 += 1;
         if (GameObject.Find("Polygonal Metalon Green") == null && questCnt3 < 1)
             questCnt3 += 1;
-    }
-
-    void EndQuest()
-    {
-        
 
     }
-
     void OpenFence()
     {
         delta += Time.deltaTime;

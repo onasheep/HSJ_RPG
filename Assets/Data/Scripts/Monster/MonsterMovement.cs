@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using System;
 
 public class MonsterMovement : MonoBehaviour
 {
@@ -120,23 +119,33 @@ public class MonsterMovement : MonoBehaviour
         rotRoutine = null;
     }
 
-    protected void AttackTarget(BattleSystem Target, float AttRange, float AttackDelay, UnityAction EndAttack)
+    // 보스 몬스터 패턴
+    protected void AttackTarget(BattleSystem Target,float AttRange, float AttackDelay, UnityAction EndAttack)
     {
         if (moveRoutine != null) StopCoroutine(moveRoutine);
         moveRoutine = StartCoroutine(Attacking(Target, AttRange, AttackDelay, EndAttack));
         if (rotRoutine != null) StopCoroutine(rotRoutine);
         rotRoutine = StartCoroutine(LookingAtTarget(Target));
     }
+    // 일반 몬스터
+    protected void AttackTarget(BattleSystem Target, string attackType,float AttRange, float AttackDelay, UnityAction EndAttack)
+    {
+        if (moveRoutine != null) StopCoroutine(moveRoutine);
+        moveRoutine = StartCoroutine(Attacking(Target, attackType, AttRange, AttackDelay, EndAttack));
+        if (rotRoutine != null) StopCoroutine(rotRoutine);
+        rotRoutine = StartCoroutine(LookingAtTarget(Target));
+    }
 
-    IEnumerator Attacking(BattleSystem Target, float AttRange, float AttackDelay, UnityAction EndAttack)
+    IEnumerator Attacking(BattleSystem Target, float AttackRange, float AttackDelay, UnityAction EndAttack)
     {
         float playTime = AttackDelay;
+        
         while (true)
         {
             if (Target.IsLive() == false) break;
             Vector3 dir = Target.transform.position - this.transform.position;
             float dist = dir.magnitude;
-            if (dist > AttRange)
+            if (dist > AttackRange)
             {
                 myAnim.SetBool("IsWalking", true);
                 dir.Normalize();
@@ -154,8 +163,8 @@ public class MonsterMovement : MonoBehaviour
                     //공격대기
                     if (playTime >= AttackDelay)
                     {
-                        //공격
-                        myAnim.SetTrigger("Attack");
+                        //공격                                        
+                        myAnim.SetTrigger(ChooseAttackType());
                         playTime = 0.0f;
                     }
                 }
@@ -164,7 +173,44 @@ public class MonsterMovement : MonoBehaviour
         }
         EndAttack?.Invoke();
     }
+    IEnumerator Attacking(BattleSystem Target, string attackType, float AttackRange, float AttackDelay, UnityAction EndAttack)
+    {
+        float playTime = AttackDelay;
 
+        while (true)
+        {
+            if (Target.IsLive() == false) break;
+            Vector3 dir = Target.transform.position - this.transform.position;
+            float dist = dir.magnitude;
+            if (dist > AttackRange)
+            {
+                myAnim.SetBool("IsWalking", true);
+                dir.Normalize();
+
+                float delta = Time.deltaTime * MoveSpeed;
+                delta = delta > dist ? dist : delta;
+                this.transform.Translate(dir * delta, Space.World);
+            }
+            else
+            {
+                myAnim.SetBool("IsWalking", false);
+                if (myAnim.GetBool("IsAttacking") == false)
+                {
+                    playTime += Time.deltaTime;
+                    //공격대기
+                    if (playTime >= AttackDelay)
+                    {
+                        //공격                                            
+                        myAnim.SetTrigger(attackType);
+                        
+                        playTime = 0.0f;
+                    }
+                }
+            }
+            yield return null;
+        }
+        EndAttack?.Invoke();
+    }
     IEnumerator LookingAtTarget(BattleSystem Target)
     {
         while (true)
@@ -179,7 +225,34 @@ public class MonsterMovement : MonoBehaviour
             yield return null;
         }
     }
-   
 
-  
+    private string ChooseAttackType()
+    {
+        // 가중치 50 / 30 / 20        
+        List<string> attackType = new List<string>() { "JumpAttack", "SmashAttack", "Attack" };
+        float[] wr = new float[] { 20.0f, 20.0f, 60.0f };
+        float weight = 0;
+        float randNum = Random.Range(0.0f, 1.0f);
+        float total = 0;
+        for (int i = 0; i < wr.Length; i++)
+        {
+            total += wr[i];
+        }
+
+        int selectNum = Mathf.RoundToInt(total * randNum);
+        for (int i = 0; i < attackType.Count; i++)
+        {
+            weight += wr[i];
+            Debug.Log(selectNum);
+            Debug.Log(weight);
+            if (selectNum < weight)
+            {
+                return attackType[i];
+            }
+
+        }
+
+        return null;
+    }
+
 }

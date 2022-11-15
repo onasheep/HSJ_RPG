@@ -238,9 +238,7 @@ public class Player : Character, BattleSystem
         {
             case STATE.CREATE:
                 SetInitializeStat();
-
-                mySound.GetComponent<AudioSource>().clip = mySound.BGM;
-                mySound.GetComponent<AudioSource>().Play();
+                mySound.OnPlay(mySound.BGM);
 
                 myAnimEvent.Attack += OnAttack;
                         

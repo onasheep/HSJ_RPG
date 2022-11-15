@@ -6,7 +6,7 @@ public class SpringArm : MonoBehaviour
 {
     private float HorizontalRotSpeed = 5.0f;
     private Camera myCam;
-    private float ZoomSpeed = 20.0f;
+    private float ZoomSpeed = 10.0f;
 
     Transform temp;
 
@@ -39,33 +39,20 @@ public class SpringArm : MonoBehaviour
     // ¸¶¿ì½º ÈÙ ³»¸±°æ¿ì ÁÜ¾Æ¿ô , ¿Ã¸± °æ¿ì ÁÜÀÎ
     void CamCloseUp()
     {
-        float W = Input.GetAxis("Mouse ScrollWheel");        
-        myCam.fieldOfView -= W * ZoomSpeed;       
-        if(myCam.fieldOfView < 25)
+        float W = Input.GetAxis("Mouse ScrollWheel");
+        myCam.fieldOfView -= W * ZoomSpeed;      
+        if (myCam.fieldOfView < 25)
         {
             temp = this.transform;
             myCam.fieldOfView = 25;
-          
+
         }
         if (myCam.fieldOfView > 60)
         {
             myCam.fieldOfView = 60;
 
         }
-        
+
 
     }
-
-    void ControlBGAlpha()
-    {
-        Ray ray = new Ray();
-        Physics.Raycast(ray,out RaycastHit hit,9999.9f, 1 << LayerMask.NameToLayer("Player"));
-        {
-            hit.transform.GetComponent<GameObject>().SetActive(false);
-        }
-
-    }
-
-    
-  
 }

@@ -33,7 +33,11 @@ public class TalkManager : MonoBehaviour
             talkLog.SetActive(isAction);
             questManager.OnQuestLog();
             if (id == 2)
-            myDropper.ItemDrop(rewardPos);
+            {
+                myDropper.ItemDrop(rewardPos);
+                questManager.OffQuestLog();
+            }
+            
             talkIndex = 0;
             return;
         }

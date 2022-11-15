@@ -62,7 +62,7 @@
     <Compile Include="Assets\JMO Assets\Cartoon FX\Scripts\CFX_LightIntensityFade.cs" />
     <Compile Include="Assets\Data\Scripts\Item\Item.cs" />
     <Compile Include="Assets\Data\Scripts\StateMachine\IsAttacking.cs" />
-    <Compile Include="Assets\Data\Scripts\Monster\MonsterData.cs" />
+    <Compile Include="Assets\Data\Scripts\Monster\BossMonster.cs" />
     <Compile Include="Assets\Data\Scripts\UI\DamageText.cs" />
     <Compile Include="Assets\Data\Scripts\UI\TalkManager.cs" />
     <Compile Include="Assets\Data\Scripts\Item\DropItemData.cs" />

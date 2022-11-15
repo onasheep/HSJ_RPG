@@ -226,10 +226,11 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
             myInven.MessageLog.alpha = alpha;
             if ( i == 0)
             {
-                myInven.MessageLog.enabled = false;
+                myInven.MessageLog.enabled = false;               
             }
             yield return new WaitForSeconds(0.03f);
         }
+        
     }
 
 
